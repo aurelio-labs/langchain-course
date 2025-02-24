@@ -3,9 +3,18 @@ import asyncio
 from agent import QueueCallbackHandler, agent_executor
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 # initilizing our application
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 # streaming function
 async def token_generator(content: str, streamer: QueueCallbackHandler):
